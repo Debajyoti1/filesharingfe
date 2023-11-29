@@ -21,13 +21,13 @@ const Signin = () => {
 
   useEffect(() => {
     if (!loadingAuth && isLoggedIn) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, []);
 
   useEffect(() => {
     if (!loadingAuth && isLoggedIn) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [isLoggedIn, loadingAuth]);
 

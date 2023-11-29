@@ -7,6 +7,7 @@ import SignUp from './components/SignUp/SignUp';
 import Landing from './pages/Landing/Landing';
 import Error404 from './pages/Error404'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 
 const browserRouter = createBrowserRouter([
@@ -26,6 +27,10 @@ const browserRouter = createBrowserRouter([
       {
         path: 'signup',
         element: <SignUp />
+      },
+      {
+        path: 'dashboard',
+        element: <Dashboard />
       }
     ]
   }

@@ -1,9 +1,17 @@
 import React, { useState, useRef } from "react";
 import { API_URL } from "../../configurations/config";
-
+import { useDispatch, useSelector } from "react-redux";
+import { filesActions, uploadFile } from '../../redux/reducers/fileReducer'
+import { authSelector } from "../../redux/reducers/authReducer";
 const Upload = () => {
+    const dispatch = useDispatch()
+    const { isLoggedIn, auth } = useSelector(authSelector)
     const fileInputRef = useRef(null);
-    const upload_url = API_URL + "/file" + "/uploadnoauth";
+    let upload_url = API_URL + "/file" + "/uploadnoauth";
+    if (isLoggedIn) {
+        upload_url = API_URL + "/file" + "/upload"
+    }
+
 
     const handleUpload = async () => {
         if (fileInputRef.current.files) {
@@ -12,23 +20,7 @@ const Upload = () => {
             for (let i = 0; i < fileInputRef.current.files.length; i++) {
                 formData.append('files', fileInputRef.current.files[i]);
             }
-
-            try {
-                const response = await fetch(upload_url, {
-                    method: "POST",
-                    body: formData,
-                });
-                console.log(formData);
-
-                if (response.ok) {
-                    // File(s) uploaded successfully
-                    console.log("Files uploaded!");
-                } else {
-                    console.error("File upload failed.");
-                }
-            } catch (error) {
-                console.error("Error uploading files:", error);
-            }
+            dispatch(uploadFile({ upload_url, formData, auth }))
         } else {
             console.error("No files selected for upload.");
         }
