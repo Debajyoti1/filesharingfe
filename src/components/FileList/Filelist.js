@@ -1,22 +1,29 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { filesSelector } from "../../redux/reducers/fileReducer";
+import React, { useEffect } from "react";
+import styles from './Filelist.module.css'
+import { useDispatch, useSelector } from "react-redux";
+import { filesSelector, getFileDetails } from "../../redux/reducers/fileReducer";
+import File from "./File";
 
 const Filelist = () => {
-    const { files } = useSelector(filesSelector)
-    console.log("files in filelist"+files);
-    return (
-        <div>
-            <h1>Filelist</h1>
-            <ol>
-                {files.map((f) => (
-                    <li key={f}>
-                        {f}
-                    </li>
-                ))}
-            </ol>
-        </div>
+    const dispatch = useDispatch();
+    const { files, fileDetails } = useSelector(filesSelector);
 
+    useEffect(() => {
+        if (files && files.length > 0) {
+            dispatch(getFileDetails(files));
+        }
+        console.log(fileDetails);
+    }, [files]);
+
+    return (
+        <div className={styles.filelistdiv}>
+            <h1>Filelist</h1>
+            <div className={styles.filelist}>
+                {fileDetails.map((f) => (
+                        <File key={f._id} file={f} />
+                ))}
+            </div>
+        </div>
     );
 }
 

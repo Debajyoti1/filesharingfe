@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authActions } from "./authReducer";
-
+import { API_URL } from "../../configurations/config";
 
 const initialState = {
     files: [],
+    fileDetails: [],
     isLoading: true,
 }
 
@@ -36,6 +37,34 @@ export const uploadFile = createAsyncThunk(
         }
     }
 )
+export const getFileDetails = createAsyncThunk(
+    'file/getFileDetails',
+    async (args, thunkAPI) => {
+
+        try {
+            // console.log(args);
+            const data = { 'files': args }
+            const response = await fetch(API_URL + '/file/info', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                // File(s) uploaded successfully
+                const resbody = await response.json()
+                console.log(resbody);
+                thunkAPI.dispatch(filesActions.setAllfileDetails(resbody.fileDetails))
+            } else {
+                console.error("Files Fetch failed.");
+            }
+        } catch (error) {
+            console.error("Error Fetching files:", error);
+        }
+    }
+)
 // Define the habit slice
 const filesSlice = createSlice({
     name: 'file',
@@ -43,6 +72,10 @@ const filesSlice = createSlice({
     reducers: {
         setAllfiles: (state, action) => {
             state.files = action.payload
+            state.isLoading = false
+        },
+        setAllfileDetails: (state, action) => {
+            state.fileDetails = action.payload
             state.isLoading = false
         },
         add: (state, action) => {
@@ -70,15 +103,17 @@ const filesSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        .addCase(authActions.login, (state, action) => {
-            console.log("After auth login, call from file extra reducer");
-            console.log(action.payload.user.files);
-            state.files = action.payload.user.files
-        })
-        .addCase(authActions.logout,(state,action)=>{
-            console.log("After auth logout, call from file extra reducer");
-            state.files=[]
-        })
+            .addCase(authActions.login, (state, action) => {
+                console.log("After auth login, call from file extra reducer");
+                console.log(action.payload.user.files);
+                state.files = action.payload.user.files
+            })
+            .addCase(authActions.logout, (state, action) => {
+                console.log("After auth logout, call from file extra reducer");
+                state.files = []
+                state.fileDetails=[]
+                //After logout still it shows details, fix it
+            })
     }
 });
 

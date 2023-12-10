@@ -83,6 +83,39 @@ export const signIn = createAsyncThunk(
         }
     }
 );
+export const signUp = createAsyncThunk(
+    'auth/signUp',
+    async (args, thunkAPI) => {
+        thunkAPI.dispatch(authActions.setLoading(true));
+        try {
+            // Make a POST request to your API endpoint
+            const response = await fetch(API_URL + '/user/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any other headers as needed
+                },
+                body: JSON.stringify(args),
+            });
+            // Check if the request was successful
+            if (response.ok) {
+                console.log('SignUp successful!');
+                // You can handle the successful login here
+                
+            } else {
+                console.error('SignUp failed.');
+                thunkAPI.dispatch(authActions.setLoading(false))
+                // You can handle the failed login here
+            }
+            thunkAPI.dispatch(authActions.setLoading(false))
+            return response
+        } catch (error) {
+            console.error('Error:', error);
+            thunkAPI.dispatch(authActions.setLoading(false))
+            // Handle any network or API errors here
+        }
+    }
+);
 
 export const signOut=createAsyncThunk(
     'auth/signOut',

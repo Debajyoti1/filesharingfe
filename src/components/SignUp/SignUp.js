@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../configurations/config';
-import { authSelector, authSign } from '../../redux/reducers/authReducer';
+import { authSelector, authSign, signUp } from '../../redux/reducers/authReducer';
 import styles from './Signup.module.css';
 const SignUp = () => {
 
@@ -45,29 +45,16 @@ const SignUp = () => {
             email: email,
             password: password
         };
-
-        try {
-            // Make a POST request to your API endpoint
-            const response = await fetch(API_URL + '/user/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Add any other headers as needed
-                },
-                body: JSON.stringify(formData),
-            });
-
-            // Check if the request was successful
-            if (response.ok) {
-                console.log('SignUp successful!');
-                // You can handle the successful login here
-            } else {
-                console.error('SignUp failed.');
-                // You can handle the failed login here
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            // Handle any network or API errors here
+        const response= await dispatch(signUp(formData))
+        //redirect to signin after success
+        console.log(response.payload);
+        if(response.payload.ok){
+            console.log('success');
+            navigate('/signin')
+        }
+        else{
+            const msg= await response.payload.json()
+            console.log(msg);
         }
     }
 
