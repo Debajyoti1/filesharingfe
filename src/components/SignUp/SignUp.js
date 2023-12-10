@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {API_URL} from '../../configurations/config'
-
+import styles from './Signup.module.css'
 const SignUp = () => {
     // State variables for input values
     const [name, setName] = useState('');
@@ -50,7 +50,7 @@ const SignUp = () => {
     return (
         <>
             <div>
-                <form onSubmit={handleSubmit}>
+                <form className={styles.form} onSubmit={handleSubmit}>
                     <input
                         type='text'
                         name='name'

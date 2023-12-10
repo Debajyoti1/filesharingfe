@@ -32,7 +32,7 @@ export const authSign = createAsyncThunk(
                 if (response.ok) {
                     const resbody = await response.json()
                     const user = resbody.user
-                    thunkAPI.dispatch(authActions.login({user,auth}))
+                    thunkAPI.dispatch(authActions.login({ user, auth }))
                     console.log(user)
                 }
                 else {
@@ -68,8 +68,8 @@ export const signIn = createAsyncThunk(
                 console.log(response.status, auth, resbody.data.user);
                 localStorage.setItem('auth', auth)
                 console.log('Login successful!');
-                const user=resbody.data.user
-                thunkAPI.dispatch(authActions.login({user,auth}))
+                const user = resbody.data.user
+                thunkAPI.dispatch(authActions.login({ user, auth }))
                 // You can handle the successful login here
             } else {
                 console.error('Login failed.');
@@ -96,12 +96,13 @@ const authSlice = createSlice({
         login: (state, action) => {
             state.isLoggedIn = true;
             state.user = action.payload.user;
-            state.auth=action.payload.auth
+            state.auth = action.payload.auth
             state.loadingAuth = false;
         },
         logout: (state, action) => {
             state.isLoggedIn = false;
             state.user = null;
+            state.auth = null
             state.loadingAuth = false;
         },
         setNotification: (state, action) => {

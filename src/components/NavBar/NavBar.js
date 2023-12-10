@@ -2,8 +2,12 @@
 import React from 'react';
 import styles from './NavBar.module.css';
 import { Outlet } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { authSelector } from '../../redux/reducers/authReducer';
 
 const NavBar = () => {
+  const {isLoggedIn} = useSelector(authSelector)
+  const dispatch=useDispatch()
   return (
     <>
       <nav>

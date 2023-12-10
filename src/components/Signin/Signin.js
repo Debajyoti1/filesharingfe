@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './Signin.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { authSelector, authSign, signIn } from '../../redux/reducers/authReducer';
 import { useNavigate } from 'react-router-dom';
@@ -53,7 +54,7 @@ const Signin = () => {
         {loadingAuth || isLoggedIn ? (
           <Loader />
         ) : (
-          <form onSubmit={handleSubmit}>
+          <form className={styles.signin} onSubmit={handleSubmit}>
             <input
               type='email'
               name='email'
