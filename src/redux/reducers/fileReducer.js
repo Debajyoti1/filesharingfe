@@ -69,15 +69,20 @@ const filesSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(authActions.login, (state, action) => {
+        builder
+        .addCase(authActions.login, (state, action) => {
             console.log("After auth login, call from file extra reducer");
             console.log(action.payload.user.files);
             state.files = action.payload.user.files
         })
+        .addCase(authActions.logout,(state,action)=>{
+            console.log("After auth logout, call from file extra reducer");
+            state.files=[]
+        })
     }
 });
 
-// Export the Habit reducer, actions, and selector
+// Export the File reducer, actions, and selector
 export const filesReducer = filesSlice.reducer
 export const filesActions = filesSlice.actions
 export const filesSelector = (state) => state.filesReducer

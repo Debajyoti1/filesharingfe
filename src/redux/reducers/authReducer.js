@@ -26,7 +26,7 @@ export const authSign = createAsyncThunk(
                         'Authorization': 'Bearer ' + auth
                         // Add any other headers as needed
                     },
-                    body: JSON.stringify(args),
+                    // body: JSON.stringify(args),
                 });
                 // Check if the request was successful
                 if (response.ok) {
@@ -83,6 +83,20 @@ export const signIn = createAsyncThunk(
         }
     }
 );
+
+export const signOut=createAsyncThunk(
+    'auth/signOut',
+    async(args,thunkAPI)=>{
+        try{
+            localStorage.removeItem('auth')
+            thunkAPI.dispatch(authActions.logout())
+        }
+        catch (error) {
+            console.error('Error:', error);
+            // Handle any network or API errors here
+        }
+    }
+)
 
 
 // Define the auth slice

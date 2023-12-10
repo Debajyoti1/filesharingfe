@@ -19,13 +19,13 @@ const Signin = () => {
   useEffect(() => {
     dispatch(authSign())
   }, [])
-
+  // User is logged in so redirect to Dashboard
   useEffect(() => {
     if (!loadingAuth && isLoggedIn) {
       navigate("/dashboard");
     }
   }, []);
-
+//If anything changes for auth then also check if it can be redirected to Dashboard
   useEffect(() => {
     if (!loadingAuth && isLoggedIn) {
       navigate("/dashboard");

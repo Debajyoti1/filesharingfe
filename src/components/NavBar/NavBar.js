@@ -1,26 +1,40 @@
 // NavBar.jsx
 import React from 'react';
-import styles from './NavBar.module.css';
-import { Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { authSelector } from '../../redux/reducers/authReducer';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { authSelector, signOut } from '../../redux/reducers/authReducer';
+import styles from './NavBar.module.css';
 
 const NavBar = () => {
-  const {isLoggedIn} = useSelector(authSelector)
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
+  const { isLoggedIn, loadingAuth } = useSelector(authSelector);
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    dispatch(signOut())
+    navigate('/'); // Redirect to the home page after sign-out
+  };
+
   return (
     <>
       <nav>
         <ul className={styles.horizontalList}>
-          <li><a href="/">Home</a></li>
-          <li><a href="/signin">SignIn</a></li>
-          <li><a href="/signup">SignUp</a></li>
+          <li><Link to="/">Home</Link></li>
+          {
+            isLoggedIn ? (
+              <li><Link onClick={handleSignOut}>SignOut</Link></li>
+            ) : (
+              <>
+                <li><Link to="/signin">SignIn</Link></li>
+                <li><Link to="/signup">SignUp</Link></li>
+              </>
+            )
+          }
           {/* Add other navigation links as needed */}
         </ul>
       </nav>
       <Outlet />
     </>
-
   );
 };
 

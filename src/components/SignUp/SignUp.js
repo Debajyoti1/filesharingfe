@@ -1,7 +1,31 @@
-import React, { useState } from 'react';
-import {API_URL} from '../../configurations/config'
-import styles from './Signup.module.css'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../configurations/config';
+import { authSelector, authSign } from '../../redux/reducers/authReducer';
+import styles from './Signup.module.css';
 const SignUp = () => {
+
+    const dispatch = useDispatch();
+
+    const { isLoggedIn, loadingAuth } = useSelector(authSelector);
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        dispatch(authSign())
+    }, [])
+    // User is logged in so redirect to Dashboard
+    useEffect(() => {
+        if (!loadingAuth && isLoggedIn) {
+            navigate("/dashboard");
+        }
+    }, []);
+    //If anything changes for auth then also check if it can be redirected to Dashboard
+    useEffect(() => {
+        if (!loadingAuth && isLoggedIn) {
+            navigate("/dashboard");
+        }
+    }, [isLoggedIn, loadingAuth]);
     // State variables for input values
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -14,7 +38,7 @@ const SignUp = () => {
         console.log('Name:', name);
         console.log('Email:', email);
         console.log('Password:', password);
-        
+
         // Prepare the data to be sent to the API
         const formData = {
             name: name,
@@ -24,7 +48,7 @@ const SignUp = () => {
 
         try {
             // Make a POST request to your API endpoint
-            const response = await fetch(API_URL+'/user/signup', {
+            const response = await fetch(API_URL + '/user/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
