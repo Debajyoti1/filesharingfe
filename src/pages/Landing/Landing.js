@@ -13,10 +13,6 @@ const Landing = () => {
   
     const navigate = useNavigate();
   
-    // useEffect(() => {
-    //   dispatch(authSign())
-    // }, [])
-  
     useEffect(() => {
         console.log('inside landing '+isLoggedIn);
       if (isLoggedIn) {

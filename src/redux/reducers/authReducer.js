@@ -15,7 +15,7 @@ export const authSign = createAsyncThunk(
     'auth/authSign',
     async (args, thunkAPI) => {
         const auth = localStorage.getItem('auth')
-        console.log('auth sign thunk => ' + auth);
+        console.log('auth sign thunk => ' + auth.length);
         if (auth) {
             try {
                 thunkAPI.dispatch(authActions.setLoading(true));

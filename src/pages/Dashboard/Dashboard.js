@@ -1,19 +1,13 @@
 import React, { useEffect } from "react";
-import Upload from "../../components/Upload/Upload";
-import Filelist from "../../components/FileList/Filelist";
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector, authSign } from "../../redux/reducers/authReducer";
 import { useNavigate } from "react-router-dom";
+import Filelist from "../../components/FileList/Filelist";
+import Upload from "../../components/Upload/Upload";
+import { authSelector } from "../../redux/reducers/authReducer";
 const Dashboard = () => {
-    const dispatch = useDispatch();
-
-    const { isLoggedIn, loadingAuth } = useSelector(authSelector);
+    const { isLoggedIn } = useSelector(authSelector);
 
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     dispatch(authSign())
-    // }, [])
 
     useEffect(() => {
         console.log('inside Dashboard '+isLoggedIn);

@@ -5,7 +5,7 @@ import { API_URL } from "../../configurations/config";
 const initialState = {
     files: [],
     fileDetails: [],
-    isLoading: true,
+    isLoading: false,
 }
 
 export const uploadFile = createAsyncThunk(
@@ -43,6 +43,7 @@ export const getFileDetails = createAsyncThunk(
 
         try {
             // console.log(args);
+            thunkAPI.dispatch(filesActions.setLoading(true))
             const data = { 'files': args }
             const response = await fetch(API_URL + '/file/info', {
                 method: "POST",
@@ -60,8 +61,12 @@ export const getFileDetails = createAsyncThunk(
             } else {
                 console.error("Files Fetch failed.");
             }
+            thunkAPI.dispatch(filesActions.setLoading(false))
+
         } catch (error) {
             console.error("Error Fetching files:", error);
+            thunkAPI.dispatch(filesActions.setLoading(false))
+
         }
     }
 )
@@ -70,6 +75,9 @@ const filesSlice = createSlice({
     name: 'file',
     initialState,
     reducers: {
+        setLoading : (state,action)=>{
+            state.isLoading=action.payload
+        },
         setAllfiles: (state, action) => {
             state.files = action.payload
             state.isLoading = false
@@ -105,7 +113,7 @@ const filesSlice = createSlice({
         builder
             .addCase(authActions.login, (state, action) => {
                 console.log("After auth login, call from file extra reducer");
-                console.log(action.payload.user.files);
+                console.log(action.payload.user.files.length);
                 state.files = action.payload.user.files
             })
             .addCase(authActions.logout, (state, action) => {
