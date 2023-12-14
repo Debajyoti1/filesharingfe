@@ -14,7 +14,7 @@ const Dashboard = () => {
         if (!isLoggedIn) {
             navigate("/signin");
         }
-    }, []);
+    }, [isLoggedIn]);
     return (
         <div>
             <h1>Dashboard after login</h1>

@@ -65,7 +65,7 @@ export const signIn = createAsyncThunk(
             if (response.ok) {
                 const resbody = await response.json()
                 const auth = resbody.data.token
-                console.log(response.status, auth, resbody.data.user);
+                console.log(response.status);
                 localStorage.setItem('auth', auth)
                 console.log('Login successful!');
                 const user = resbody.data.user

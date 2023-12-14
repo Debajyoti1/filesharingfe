@@ -21,6 +21,12 @@
     padding: 8px;
     width: 50%;
     align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.file:hover {
+    transform: translateY(-5px);
 }
 
 .file > p {
@@ -57,3 +63,25 @@
         width: 60%; /* Adjust button container width for smaller screens */
     }
 }
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .pagination button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    color: #333;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .pagination button:hover {
+    background-color: #e0e0e0;
+  }
