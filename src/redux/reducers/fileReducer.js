@@ -6,6 +6,7 @@ const initialState = {
     files: [],
     fileDetails: [],
     isLoading: false,
+    fileInfo:null
 }
 
 export const uploadFile = createAsyncThunk(
@@ -101,7 +102,34 @@ export const getFileDetails = createAsyncThunk(
         }
     }
 )
-// Define the habit slice
+export const getAFileInfo = createAsyncThunk(
+    'file/getAFileInfo',
+    async (args, thunkAPI) => {
+
+        try {
+            // console.log(args);
+            thunkAPI.dispatch(filesActions.setLoading(true))
+            const response = await fetch(API_URL + '/file/info/'+args, {
+                method: "GET",
+            });
+
+            if (response.ok) {
+                // File(s) uploaded successfully
+                const resbody = await response.json()
+                console.log(resbody);
+                thunkAPI.dispatch(filesActions.setAFileInfo(resbody.message))
+            } else {
+                console.error("File info Fetch failed.");
+            }
+            thunkAPI.dispatch(filesActions.setLoading(false))
+        } catch (error) {
+            console.error("Error Fetching files:", error);
+            thunkAPI.dispatch(filesActions.setLoading(false))
+        }
+    }
+)
+
+// Define the file slice
 const filesSlice = createSlice({
     name: 'file',
     initialState,
@@ -116,6 +144,10 @@ const filesSlice = createSlice({
         setAllfileDetails: (state, action) => {
             state.fileDetails = action.payload
             state.isLoading = false
+        },
+        setAFileInfo:(state,action)=>{
+            state.fileInfo=action.payload
+            state.isLoading=false
         },
         add: (state, action) => {
             state.files = [action.payload, ...state.files]

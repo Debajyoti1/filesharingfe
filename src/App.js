@@ -8,6 +8,7 @@ import Landing from './pages/Landing/Landing';
 import Error404 from './pages/Error404'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Download from './pages/Download/Download';
 
 
 const browserRouter = createBrowserRouter([
@@ -31,6 +32,10 @@ const browserRouter = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />
+      },
+      {
+        path: 'download/:fileId',
+        element: <Download />
       }
     ]
   }

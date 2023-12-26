@@ -15,7 +15,7 @@ const File = ({ file }) => {
             <div className={styles.filebtn}>
                 <button className={styles.btn}>Share</button>
                 <button className={styles.btn}>Download</button>
-                <button className={styles.btn} onClick={handleDelete}>Delete</button>
+                {auth?(<button className={styles.btn} onClick={handleDelete}>Delete</button>):''}
             </div>
         </div>
     </>
