@@ -37,6 +37,37 @@ export const uploadFile = createAsyncThunk(
         }
     }
 )
+export const deleteFile = createAsyncThunk(
+    'file/deleteFile',
+    async ({ fileId, auth }, thunkAPI) => {
+        // console.log(fileId, auth);
+        try {
+            const headers = new Headers();
+            headers.append('Authorization', `Bearer ${auth}`);
+            headers.append('Content-Type', 'application/json');
+            const data = { "id": fileId }
+            const response = await fetch(API_URL + '/file/delete', {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(data)
+            });
+
+            // console.log(headers);
+
+            if (response.ok) {
+                // File deleted successfully
+                const resbody = await response.json()
+                thunkAPI.dispatch(filesActions.delete(fileId))
+                console.log(resbody);
+            } else {
+                console.log(await response.json());
+                console.error("File delete failed.");
+            }
+        } catch (error) {
+            console.error("Error deleting files:", error);
+        }
+    }
+)
 export const getFileDetails = createAsyncThunk(
     'file/getFileDetails',
     async (args, thunkAPI) => {
@@ -75,8 +106,8 @@ const filesSlice = createSlice({
     name: 'file',
     initialState,
     reducers: {
-        setLoading : (state,action)=>{
-            state.isLoading=action.payload
+        setLoading: (state, action) => {
+            state.isLoading = action.payload
         },
         setAllfiles: (state, action) => {
             state.files = action.payload
@@ -90,8 +121,8 @@ const filesSlice = createSlice({
             state.files = [action.payload, ...state.files]
         },
         delete: (state, action) => {
-            state.files = state.files.filter((habit) =>
-                (habit.id !== action.payload)
+            state.files = state.files.filter((file) =>
+                (file.id !== action.fileId)
             );
         },
         update: (state, action) => {
@@ -119,7 +150,7 @@ const filesSlice = createSlice({
             .addCase(authActions.logout, (state, action) => {
                 console.log("After auth logout, call from file extra reducer");
                 state.files = []
-                state.fileDetails=[]
+                state.fileDetails = []
                 //After logout still it shows details, fix it
             })
     }
