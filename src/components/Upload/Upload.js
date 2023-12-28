@@ -3,11 +3,12 @@ import styles from './Upload.module.css';
 import { useDispatch, useSelector } from "react-redux";
 import { API_URL } from "../../configurations/config";
 import { authSelector } from "../../redux/reducers/authReducer";
-import { uploadFile } from '../../redux/reducers/fileReducer';
+import { filesSelector, uploadFile } from '../../redux/reducers/fileReducer';
 
 const Upload = () => {
     const dispatch = useDispatch();
     const { isLoggedIn, auth } = useSelector(authSelector);
+    const {fileUploadProgress } = useSelector(filesSelector)
     const fileInputRef = useRef(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -23,6 +24,7 @@ const Upload = () => {
             for (let i = 0; i < selectedFiles.length; i++) {
                 formData.append('files', selectedFiles[i]);
             }
+
             dispatch(uploadFile({ upload_url, formData, auth }));
         } else {
             console.error("No files selected for upload.");
@@ -49,9 +51,7 @@ const Upload = () => {
     };
 
     return (
-        <div className={styles.fileUpload}
-             onDragOver={handleDragOver}
-             onDrop={handleDrop}>
+        <div className={styles.fileUpload} onDragOver={handleDragOver} onDrop={handleDrop}>
             <label htmlFor="fileInput" className={styles.fileInputLabel}>
                 {selectedFiles.length === 0 ? 'Drag & Drop files here or click to select files' : 'Selected files:'}
             </label>
@@ -72,6 +72,11 @@ const Upload = () => {
                 style={{ display: 'none' }}
             />
             <button onClick={handleUpload}>Upload</button>
+            {fileUploadProgress > 0 && fileUploadProgress < 100 && (
+                <div className={styles.progressBar}>
+                    <div className={styles.progressFill} style={{ width: `${fileUploadProgress}%` }}>{fileUploadProgress}%</div>
+                </div>
+            )}
         </div>
     );
 };

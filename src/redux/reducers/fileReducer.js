@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authActions } from "./authReducer";
 import { API_URL } from "../../configurations/config";
@@ -6,30 +7,39 @@ const initialState = {
     files: [],
     fileDetails: [],
     isLoading: false,
-    fileInfo:null
+    fileInfo:null,
+    fileUploadProgress:0
 }
+
 
 export const uploadFile = createAsyncThunk(
     'file/uploadFile',
     async ({ upload_url, formData, auth }, thunkAPI) => {
-
         try {
-            const headers = new Headers();
-            headers.append('Authorization', `Bearer ${auth}`);
-            const response = await fetch(upload_url, {
-                method: "POST",
-                body: formData,
-                headers: headers
-            });
-            console.log(headers);
+            const headers = {
+                Authorization: `Bearer ${auth}`,
+                'Content-Type': 'multipart/form-data', // Ensure this content type for FormData
+            };
 
-            if (response.ok) {
+            const axiosConfig = {
+                headers: headers,
+                onUploadProgress: (progressEvent) => {
+                    // if (progressEvent.lengthComputable) {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        thunkAPI.dispatch(filesActions.setFileUploadProgress(percentCompleted))
+                        console.log(progressEvent);
+                    // }
+                },
+            };
+
+            const response = await axios.post(upload_url, formData, axiosConfig);
+
+            if (response.status === 200) {
                 // File(s) uploaded successfully
-                const resbody = await response.json()
-                const files = resbody.files
+                const files = response.data.files;
                 console.log("Files uploaded!");
-                thunkAPI.dispatch(filesActions.add(files))
-                console.log(resbody);
+                thunkAPI.dispatch(filesActions.add(files));
+                console.log(response.data);
             } else {
                 console.error("File upload failed.");
             }
@@ -37,7 +47,8 @@ export const uploadFile = createAsyncThunk(
             console.error("Error uploading files:", error);
         }
     }
-)
+);
+
 export const deleteFile = createAsyncThunk(
     'file/deleteFile',
     async ({ fileId, auth }, thunkAPI) => {
@@ -157,16 +168,8 @@ const filesSlice = createSlice({
                 (file.id !== action.fileId)
             );
         },
-        update: (state, action) => {
-            const { habitId, day, newStatus } = action.payload;
-
-            // Find the habit by ID
-            const habitToUpdate = state.files.find((habit) => habit.id === habitId);
-            // console.log(habitToUpdate);
-            if (habitToUpdate) {
-                // Update the status of the specified day
-                habitToUpdate.days[day] = newStatus
-            }
+        setFileUploadProgress: (state,action)=>{
+            state.fileUploadProgress=action.payload
         },
         setNotification: (state, action) => {
             state.message = true; // Set message flag to true to display a notification
