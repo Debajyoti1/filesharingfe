@@ -7,8 +7,8 @@ const initialState = {
     files: [],
     fileDetails: [],
     isLoading: false,
-    fileInfo:null,
-    fileUploadProgress:0
+    fileInfo: null,
+    fileUploadProgress: 0
 }
 
 
@@ -25,9 +25,9 @@ export const uploadFile = createAsyncThunk(
                 headers: headers,
                 onUploadProgress: (progressEvent) => {
                     // if (progressEvent.lengthComputable) {
-                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                        thunkAPI.dispatch(filesActions.setFileUploadProgress(percentCompleted))
-                        console.log(progressEvent);
+                    const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    thunkAPI.dispatch(filesActions.setFileUploadProgress(percentCompleted))
+                    console.log(progressEvent);
                     // }
                 },
             };
@@ -120,7 +120,7 @@ export const getAFileInfo = createAsyncThunk(
         try {
             // console.log(args);
             thunkAPI.dispatch(filesActions.setLoading(true))
-            const response = await fetch(API_URL + '/file/info/'+args, {
+            const response = await fetch(API_URL + '/file/info/' + args, {
                 method: "GET",
             });
 
@@ -156,20 +156,20 @@ const filesSlice = createSlice({
             state.fileDetails = action.payload
             state.isLoading = false
         },
-        setAFileInfo:(state,action)=>{
-            state.fileInfo=action.payload
-            state.isLoading=false
+        setAFileInfo: (state, action) => {
+            state.fileInfo = action.payload
+            state.isLoading = false
         },
         add: (state, action) => {
             state.files = [action.payload, ...state.files]
         },
         delete: (state, action) => {
             state.files = state.files.filter((file) =>
-                (file.id !== action.fileId)
+                (file !== action.payload)
             );
         },
-        setFileUploadProgress: (state,action)=>{
-            state.fileUploadProgress=action.payload
+        setFileUploadProgress: (state, action) => {
+            state.fileUploadProgress = action.payload
         },
         setNotification: (state, action) => {
             state.message = true; // Set message flag to true to display a notification
@@ -186,7 +186,6 @@ const filesSlice = createSlice({
                 console.log("After auth logout, call from file extra reducer");
                 state.files = []
                 state.fileDetails = []
-                //After logout still it shows details, fix it
             })
     }
 });

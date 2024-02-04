@@ -21,6 +21,8 @@ const Filelist = () => {
         const filesForPage = files.slice(startIndex, endIndex);
 
         dispatch(getFileDetails(filesForPage));
+        console.log(files);
+        console.log(fileDetails)
     }, [files, page, pageSize]);
 
     const handleNextPage = () => {
@@ -42,9 +44,11 @@ const Filelist = () => {
                 <Loader />
             ) : (
                 <div className={styles.filelist}>
-                    {fileDetails.map((f) => (
+                    {fileDetails.map((f) => 
+                        
+                        // {return f &&
                         <File key={f._id} file={f} />
-                    ))}
+                    )}
                 </div>
             )}
             {
