@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Filelist.module.css'
-import { authSelector } from '../../redux/reducers/authReducer';
-import { deleteFile } from '../../redux/reducers/fileReducer';
+import { authActions, authSelector } from '../../redux/reducers/authReducer';
+import { deleteFile, filesActions } from '../../redux/reducers/fileReducer';
 const File = ({ file }) => {
     const dispatch = useDispatch();
     const { auth } = useSelector(authSelector);
@@ -19,6 +19,7 @@ const File = ({ file }) => {
             
             // Optionally, provide some user feedback (e.g., notification or console log)
             // console.log('Content copied to clipboard:', contentToCopy);
+            dispatch(filesActions.setNotification({'success':'Link Copied to Clipboard'}))
         } catch (error) {
             // Handle any errors that might occur during copying
             console.error('Error copying to clipboard:', error);
