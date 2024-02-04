@@ -26,6 +26,8 @@ const Upload = () => {
             }
 
             dispatch(uploadFile({ upload_url, formData, auth }));
+            // Clear the form atfer upload completes
+            setSelectedFiles([])
         } else {
             console.error("No files selected for upload.");
         }
