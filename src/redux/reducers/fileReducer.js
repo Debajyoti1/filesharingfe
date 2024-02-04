@@ -41,11 +41,15 @@ export const uploadFile = createAsyncThunk(
                 console.log("Files uploaded!");
                 thunkAPI.dispatch(filesActions.add(files));
                 console.log(response.data);
+                thunkAPI.dispatch(authActions.setNotification({ 'success': 'File Uploaded Successfully' }))
+
             } else {
                 console.error("File upload failed.");
+                thunkAPI.dispatch(authActions.setNotification({ 'error': 'File Upload Failed' }))
             }
         } catch (error) {
             console.error("Error uploading files:", error);
+            thunkAPI.dispatch(authActions.setNotification({ 'error': 'File Upload Failed' }))
         }
     }
 );
@@ -71,13 +75,18 @@ export const deleteFile = createAsyncThunk(
                 // File deleted successfully
                 const resbody = await response.json()
                 thunkAPI.dispatch(filesActions.delete(fileId))
+                thunkAPI.dispatch(authActions.setNotification({ 'success': 'File Deleted Successfully' }))
+
                 console.log(resbody);
             } else {
                 console.log(await response.json());
                 console.error("File delete failed.");
+                thunkAPI.dispatch(authActions.setNotification({ 'error': 'File Delete Failed' }))
+
             }
         } catch (error) {
             console.error("Error deleting files:", error);
+            thunkAPI.dispatch(authActions.setNotification({ 'error': 'File Delete Failed' }))
         }
     }
 )
@@ -105,13 +114,15 @@ export const getFileDetails = createAsyncThunk(
                 thunkAPI.dispatch(filesActions.setAllfileDetails(resbody.fileDetails))
             } else {
                 console.error("Files Fetch failed.");
+                thunkAPI.dispatch(authActions.setNotification({ 'error': 'Error Fetching files' }))
+
             }
             thunkAPI.dispatch(filesActions.setLoading(false))
 
         } catch (error) {
             console.error("Error Fetching files:", error);
             thunkAPI.dispatch(filesActions.setLoading(false))
-
+            thunkAPI.dispatch(authActions.setNotification({ 'error': 'Error Fetching files' }))
         }
     }
 )
@@ -138,6 +149,7 @@ export const getAFileInfo = createAsyncThunk(
         } catch (error) {
             console.error("Error Fetching files:", error);
             thunkAPI.dispatch(filesActions.setLoading(false))
+            thunkAPI.dispatch(authActions.setNotification({ 'error': 'Error Fetching File Info' }))
         }
     }
 )

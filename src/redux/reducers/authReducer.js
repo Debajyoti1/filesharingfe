@@ -34,14 +34,18 @@ export const authSign = createAsyncThunk(
                     const user = resbody.user
                     thunkAPI.dispatch(authActions.login({ user, auth }))
                     console.log(user)
+
                 }
                 else {
                     console.error('Login failed.');
                     thunkAPI.dispatch(authActions.setLoading(false))
+                    thunkAPI.dispatch(authActions.setNotification({ 'error': 'Auto Login Failed' }))
+
                 }
             } catch (error) {
                 console.error('Error:', error);
                 thunkAPI.dispatch(authActions.setLoading(false))
+                thunkAPI.dispatch(authActions.setNotification({ 'error': 'Auto Login Failed' }))
             }
         }
     }
@@ -70,17 +74,20 @@ export const signIn = createAsyncThunk(
                 console.log('Login successful!');
                 const user = resbody.data.user
                 thunkAPI.dispatch(authActions.login({ user, auth }))
-                thunkAPI.dispatch(authActions.setNotification({'success':'Login'}))
+                thunkAPI.dispatch(authActions.setNotification({ 'success': 'Login Successful' }))
 
                 // You can handle the successful login here
             } else {
                 console.error('Login failed.');
                 thunkAPI.dispatch(authActions.setLoading(false))
+                thunkAPI.dispatch(authActions.setNotification({ 'error': 'Login Failed' }))
                 // You can handle the failed login here
             }
         } catch (error) {
             console.error('Error:', error);
             thunkAPI.dispatch(authActions.setLoading(false))
+            thunkAPI.dispatch(authActions.setNotification({ 'error': 'Login Failed' }))
+
             // Handle any network or API errors here
         }
     }
@@ -103,10 +110,13 @@ export const signUp = createAsyncThunk(
             if (response.ok) {
                 console.log('SignUp successful!');
                 // You can handle the successful login here
-                
+                thunkAPI.dispatch(authActions.setNotification({ 'success': 'SignUp Successful' }))
+
             } else {
                 console.error('SignUp failed.');
                 thunkAPI.dispatch(authActions.setLoading(false))
+                thunkAPI.dispatch(authActions.setNotification({ 'error': 'SignUp Failed' }))
+
                 // You can handle the failed login here
             }
             thunkAPI.dispatch(authActions.setLoading(false))
@@ -114,20 +124,23 @@ export const signUp = createAsyncThunk(
         } catch (error) {
             console.error('Error:', error);
             thunkAPI.dispatch(authActions.setLoading(false))
+            thunkAPI.dispatch(authActions.setNotification({ 'error': 'SignUp Failed' }))
             // Handle any network or API errors here
         }
     }
 );
 
-export const signOut=createAsyncThunk(
+export const signOut = createAsyncThunk(
     'auth/signOut',
-    async(args,thunkAPI)=>{
-        try{
+    async (args, thunkAPI) => {
+        try {
             localStorage.removeItem('auth')
             thunkAPI.dispatch(authActions.logout())
+            thunkAPI.dispatch(authActions.setNotification({ 'success': 'You are Logged Out' }))
         }
         catch (error) {
             console.error('Error:', error);
+            thunkAPI.dispatch(authActions.setNotification({ 'error': 'You are not Logged Out' }))
             // Handle any network or API errors here
         }
     }
