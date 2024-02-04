@@ -4,11 +4,12 @@ import { authActions } from "./authReducer";
 import { API_URL } from "../../configurations/config";
 
 const initialState = {
+    message: true,
     files: [],
     fileDetails: [],
     isLoading: false,
     fileInfo: null,
-    fileUploadProgress: 0
+    fileUploadProgress: 0,
 }
 
 
@@ -88,6 +89,7 @@ export const getFileDetails = createAsyncThunk(
             // console.log(args);
             thunkAPI.dispatch(filesActions.setLoading(true))
             const data = { 'files': args }
+            console.log(data);
             const response = await fetch(API_URL + '/file/info', {
                 method: "POST",
                 headers: {
@@ -164,9 +166,12 @@ const filesSlice = createSlice({
             state.files = [action.payload, ...state.files]
         },
         delete: (state, action) => {
+            // state.fileDetails=[]
             state.files = state.files.filter((file) =>
-                (file !== action.payload)
+                (file != action.payload)
             );
+            // state.files=[]
+
         },
         setFileUploadProgress: (state, action) => {
             state.fileUploadProgress = action.payload

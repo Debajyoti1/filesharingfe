@@ -70,6 +70,8 @@ export const signIn = createAsyncThunk(
                 console.log('Login successful!');
                 const user = resbody.data.user
                 thunkAPI.dispatch(authActions.login({ user, auth }))
+                thunkAPI.dispatch(authActions.setNotification({'success':'Login'}))
+
                 // You can handle the successful login here
             } else {
                 console.error('Login failed.');
