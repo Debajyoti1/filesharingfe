@@ -10,14 +10,14 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log('inside Dashboard '+isLoggedIn);
+        console.log('inside Dashboard ' + isLoggedIn);
         if (!isLoggedIn) {
             navigate("/signin");
         }
     }, [isLoggedIn]);
     return (
         <div>
-            <h1>Dashboard after login</h1>
+            <h1 style={{ textAlign: "center", marginTop: "10px" }}>Welcome to File Sharing Application<br />Created and Manited by Debajyoti Dutta</h1>
             {/* Send actual upload url for logged in user */}
             <Upload />
             <Filelist />

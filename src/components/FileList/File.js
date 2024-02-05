@@ -15,11 +15,11 @@ const File = ({ file }) => {
     const handleShare = async () => {
         try {
             // Use the Clipboard API to write the content to the clipboard
-            await navigator.clipboard.writeText(window.location.origin+'/download/'+file._id);
-            
+            await navigator.clipboard.writeText(window.location.origin + '/download/' + file._id);
+
             // Optionally, provide some user feedback (e.g., notification or console log)
             // console.log('Content copied to clipboard:', contentToCopy);
-            dispatch(filesActions.setNotification({'success':'Link Copied to Clipboard'}))
+            dispatch(filesActions.setNotification({ 'success': 'Link Copied to Clipboard' }))
         } catch (error) {
             // Handle any errors that might occur during copying
             console.error('Error copying to clipboard:', error);

@@ -7,28 +7,28 @@ import { useEffect } from "react";
 import Filelist from "../../components/FileList/Filelist";
 
 const Landing = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const { isLoggedIn, loadingAuth } = useSelector(authSelector);
-  
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-        console.log('inside landing '+isLoggedIn);
-      if (isLoggedIn) {
-        navigate("/dashboard");
-      }
-      else{
-        dispatch(authSign())
-      }
-    }, [isLoggedIn]);
-    return (
-        <div>
-            <h1>Landing</h1>
-            <Upload />
-            <Filelist />
-        </div>
-    );
+  const { isLoggedIn, loadingAuth } = useSelector(authSelector);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('inside landing ' + isLoggedIn);
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+    else {
+      dispatch(authSign())
+    }
+  }, [isLoggedIn]);
+  return (
+    <div>
+      <h1 style={{ textAlign: "center", marginTop: "10px" }}>Welcome to File Sharing Application<br />Created and Manited by Debajyoti Dutta</h1>
+      <Upload />
+      <Filelist />
+    </div>
+  );
 }
 
 export default Landing;

@@ -41,7 +41,7 @@ const Filelist = () => {
 
     return (
         <div className={styles.filelistdiv}>
-            <h1>Filelist</h1>
+            <h1>File List</h1>
             {isLoading ? (
                 <Loader />
             ) : (
