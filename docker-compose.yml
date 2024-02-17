@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  nginx:
+    image: nginx:latest
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    restart: always
+    expose:
+      - "80"
+      - "443"
+    ports:
+      - "8145:80"
+      - "8146:443"
+    volumes:
+      - /root/filesharingfe/build:/usr/share/nginx/html
+      - /root/nginx/certificates:/usr/share/nginx/certificates
