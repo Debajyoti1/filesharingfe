@@ -24,7 +24,7 @@ const Landing = () => {
   }, [isLoggedIn]);
   return (
     <div>
-      <h1 style={{ textAlign: "center", marginTop: "10px" }}>Welcome to File Sharing Application<br />Created and Manited by Debajyoti Dutta</h1>
+      <h1 style={{ textAlign: "center", marginTop: "10px" }}>Welcome to File Sharing Application<br />Created and Maintained by Debajyoti Dutta</h1>
       <Upload />
       <Filelist />
     </div>
