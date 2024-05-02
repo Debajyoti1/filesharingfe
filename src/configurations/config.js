@@ -1,1 +1,1 @@
-export const API_URL = 'https://s.debajyotidutta.com:8141';
+export const BACKEND_API_URL = 'https://filesbe.debajyotidutta.com';

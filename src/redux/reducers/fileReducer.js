@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authActions } from "./authReducer";
-import { API_URL } from "../../configurations/config";
+import { BACKEND_API_URL } from "../../configurations/config";
 
 const initialState = {
     message: true,
@@ -63,7 +63,7 @@ export const deleteFile = createAsyncThunk(
             headers.append('Authorization', `Bearer ${auth}`);
             headers.append('Content-Type', 'application/json');
             const data = { "id": fileId }
-            const response = await fetch(API_URL + '/file/delete', {
+            const response = await fetch(BACKEND_API_URL + '/file/delete', {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(data)
@@ -99,7 +99,7 @@ export const getFileDetails = createAsyncThunk(
             thunkAPI.dispatch(filesActions.setLoading(true))
             const data = { 'files': args }
             console.log(data);
-            const response = await fetch(API_URL + '/file/info', {
+            const response = await fetch(BACKEND_API_URL + '/file/info', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -133,7 +133,7 @@ export const getAFileInfo = createAsyncThunk(
         try {
             // console.log(args);
             thunkAPI.dispatch(filesActions.setLoading(true))
-            const response = await fetch(API_URL + '/file/info/' + args, {
+            const response = await fetch(BACKEND_API_URL + '/file/info/' + args, {
                 method: "GET",
             });
 

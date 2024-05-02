@@ -5,7 +5,7 @@ import { authSign } from '../../redux/reducers/authReducer';
 import { filesSelector, getAFileInfo } from "../../redux/reducers/fileReducer";
 import Loader from '..//../components/Loader/Loader';
 import styles from './Download.module.css';
-import { API_URL } from '../../configurations/config';
+import { BACKEND_API_URL } from '../../configurations/config';
 
 const Download = () => {
     const { fileId } = useParams();
@@ -18,7 +18,7 @@ const Download = () => {
         dispatch(getAFileInfo(fileId));
     }, [dispatch, fileId]);
     const handleDownload=()=>{
-        const downloadLink=API_URL+'/file/download/'+fileId
+        const downloadLink=BACKEND_API_URL+'/file/download/'+fileId
         window.open(downloadLink, '_blank');
     }
     return (

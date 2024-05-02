@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { API_URL } from '../../configurations/config'
+import { BACKEND_API_URL } from '../../configurations/config'
 
 
 const initialState = {
@@ -19,7 +19,7 @@ export const authSign = createAsyncThunk(
         if (auth) {
             try {
                 thunkAPI.dispatch(authActions.setLoading(true));
-                const response = await fetch(API_URL + '/user/profile', {
+                const response = await fetch(BACKEND_API_URL + '/user/profile', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export const signIn = createAsyncThunk(
 
         try {
             // Make a POST request to your API endpoint
-            const response = await fetch(API_URL + '/user/signin', {
+            const response = await fetch(BACKEND_API_URL + '/user/signin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export const signUp = createAsyncThunk(
         thunkAPI.dispatch(authActions.setLoading(true));
         try {
             // Make a POST request to your API endpoint
-            const response = await fetch(API_URL + '/user/signup', {
+            const response = await fetch(BACKEND_API_URL + '/user/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

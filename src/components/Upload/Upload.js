@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import styles from './Upload.module.css';
 import { useDispatch, useSelector } from "react-redux";
-import { API_URL } from "../../configurations/config";
+import { BACKEND_API_URL } from "../../configurations/config";
 import { authSelector } from "../../redux/reducers/authReducer";
 import { filesSelector, uploadFile } from '../../redux/reducers/fileReducer';
 
@@ -12,9 +12,9 @@ const Upload = () => {
     const fileInputRef = useRef(null);
     const [selectedFiles, setSelectedFiles] = useState([]);
 
-    let upload_url = API_URL + "/file" + "/uploadnoauth";
+    let upload_url = BACKEND_API_URL + "/file" + "/uploadnoauth";
     if (isLoggedIn) {
-        upload_url = API_URL + "/file" + "/upload";
+        upload_url = BACKEND_API_URL + "/file" + "/upload";
     }
 
     const handleUpload = () => {

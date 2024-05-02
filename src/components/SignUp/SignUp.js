@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../../configurations/config';
+import { BACKEND_API_URL } from '../../configurations/config';
 import { authSelector, authSign, signUp } from '../../redux/reducers/authReducer';
 import styles from './Signup.module.css';
 const SignUp = () => {
