@@ -11,4 +11,5 @@ services:
     ports:
       - "8145:80"
     volumes:
-      - /root/filesharingfe/build:/usr/share/nginx/html
+      - /root/filesharingfe/build:/usr/share/nginx/html:rw
+      - ./default.conf:/etc/nginx/conf.d/default.conf:rw
